@@ -80,7 +80,7 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
 
         g.setColor(Color.WHITE);
-        g.drawString("Game Loop Running", 20, 20);
+        g.drawString("Test", 20, 20);
 
         g.dispose();
     }
