@@ -1,9 +1,9 @@
 package si.unm_fei.core;
 
+import si.unm_fei.ui.Board;
+
 import javax.swing.JPanel;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Color;
+import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -18,6 +18,9 @@ public class GamePanel extends JPanel implements Runnable {
     // FPS
     private static final int FPS = 60;
     private static final double DRAW_INTERVAL = 1_000_000_000.0 / FPS;
+
+    // Instances
+    Board board;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -66,7 +69,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Instantiate game objects here
     private void initObj() {
-        //npr: Player player = new Player();
+        board = new Board(WIDTH, HEIGHT);
+
     }
 
     // game updates here (called 60 times per second)
@@ -78,9 +82,9 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g.create();
 
-        g.setColor(Color.WHITE);
-        g.drawString("Test", 20, 20);
+        board.draw(g2); // draw the board
 
         g.dispose();
     }
