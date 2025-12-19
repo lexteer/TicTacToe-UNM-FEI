@@ -2,6 +2,7 @@ package si.unm_fei.ui;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 
 public class Board {
     private final int rows = 3;
@@ -33,46 +34,76 @@ public class Board {
         y = middleOfScreenY - halfBoardY;
     }
 
-    private int boardWidth() {
-        return cols * cellSize;
+    public int getRows() {
+        return rows;
     }
 
-    private int boardHeight() {
-        return rows * cellSize;
+    public int getCols() {
+        return cols;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getCellSize() {
+        return cellSize;
+    }
+
+    public int getLineThickness() {
+        return lineThickness;
+    }
+
+    public int boardWidth() {
+        return cols * cellSize + (cols + 1) * lineThickness;
+    }
+
+    public int boardHeight() {
+        return rows * cellSize + (rows + 1) * lineThickness;
     }
 
     public void draw(Graphics2D g2) {
-        // Change the stroke
         g2.setColor(Color.WHITE);
+
         g2.setStroke(new BasicStroke(
                 lineThickness,
-                BasicStroke.CAP_ROUND, // rounded
-                BasicStroke.JOIN_ROUND // connect rounded
+                BasicStroke.CAP_BUTT,
+                BasicStroke.JOIN_MITER
         ));
 
-        // Vertical grid lines
+        int step = cellSize + lineThickness;
+        double half = lineThickness / 2.0;
+
+        // border
+        g2.draw(new Rectangle2D.Double(
+                x + half,
+                y + half,
+                boardWidth() - lineThickness,
+                boardHeight() - lineThickness
+        ));
+
+        // vertical inner lines
         for (int i = 1; i < cols; i++) {
-            double xStartPoint = x + i * cellSize;
+            double lx = x + i * step + half;
             g2.draw(new Line2D.Double(
-                    xStartPoint, // start point of line
-                    y,
-                    xStartPoint, // end point of line
-                    y + boardHeight()
+                    lx, y,
+                    lx, y + boardHeight()
             ));
         }
 
-        // Horizontal grid lines
+        // horizontal inner lines
         for (int i = 1; i < rows; i++) {
-            double yStartPoint = y + i * cellSize;
+            double ly = y + i * step + half;
             g2.draw(new Line2D.Double(
-                    x, // start point of line
-                    yStartPoint,
-                    x + boardWidth(), // end point of line
-                    yStartPoint
+                    x, ly,
+                    x + boardWidth(), ly
             ));
         }
-
-        // outer border
-        g2.drawRect(x, y, boardWidth(), boardHeight());
     }
+
+
 }
