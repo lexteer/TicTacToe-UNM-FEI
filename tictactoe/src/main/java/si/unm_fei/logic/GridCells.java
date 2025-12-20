@@ -10,24 +10,23 @@ import java.util.Arrays;
 
 public class GridCells {
     private Cell[] cells = new Cell[9]; // array for all grid cells (0...8)
-    private BufferedImage symbol;
+    private BufferedImage Xsymbol, Osymbol;
 
     MouseHandler mouse;
     Board board;
     Assets assets;
+    GamePanel gp;
 
-    public GridCells(MouseHandler mouse, Board board, Assets assets) {
+    public GridCells(MouseHandler mouse, Board board, Assets assets, GamePanel gp) {
         Arrays.fill(cells, Cell.EMPTY); // fill all cells with empty status
 
         this.mouse = mouse;
         this.board = board;
         this.assets = assets;
+        this.gp = gp;
 
-        if(GamePanel.playerSymbol == Cell.X) {
-            symbol = assets.getImage("/x_white.png");
-        } else {
-            symbol = assets.getImage("/o_white.png");
-        }
+        Xsymbol = assets.getImage("/x_white.png");
+        Osymbol = assets.getImage("/o_white.png");
 
     }
 
@@ -41,6 +40,19 @@ public class GridCells {
 
     public Cell[] getCells() {
         return cells;
+    }
+
+    public void resetCells() {
+        for (int i = 0; i < cells.length; i++) {
+            cells[i] = Cell.EMPTY;
+        }
+    }
+
+    public boolean anyCellEmpty() {
+        for(Cell cell : cells) {
+            if(cell == Cell.EMPTY) return true;
+        }
+        return false;
     }
 
     private Point getPixelCoordinates(int index) {
@@ -61,11 +73,13 @@ public class GridCells {
 
     public void update() {
         // update cell status if clicked
-        if(mouse.isPressed()) {
+        if(mouse.isPressed() && !GamePanel.isGameOver) {
             int index = mouse.getLocationIndex();
-            if(index == -1) return;
+            if(index == -1 || getStatus(index) != Cell.EMPTY) return;
 
-            setStatus(index, Cell.X);
+            setStatus(index, GamePanel.playerSymbol);
+
+            gp.switchPlayer();
 
             mouse.setPressed(false);
         }
@@ -79,11 +93,9 @@ public class GridCells {
             Point point = getPixelCoordinates(i);
 
             if(cells[i] == Cell.X) {
-                //for debugging:
-                //g2.setColor(Color.BLUE);
-                //g2.fillRect(point.x, point.y, board.getCellSize(), board.getCellSize());
-
-                g2.drawImage(symbol, point.x, point.y, board.getCellSize(), board.getCellSize(), null);
+                g2.drawImage(Xsymbol, point.x, point.y, board.getCellSize(), board.getCellSize(), null);
+            } else {
+                g2.drawImage(Osymbol, point.x, point.y, board.getCellSize(), board.getCellSize(), null);
             }
         }
     }
