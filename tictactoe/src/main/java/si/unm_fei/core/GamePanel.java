@@ -1,17 +1,20 @@
 package si.unm_fei.core;
 
-import si.unm_fei.logic.Cell;
-import si.unm_fei.logic.GridCells;
-import si.unm_fei.logic.MouseHandler;
+import si.unm_fei.logic.*;
 import si.unm_fei.ui.Board;
+import si.unm_fei.ui.GameOver;
+import si.unm_fei.ui.ResetGameBtn;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
 
     public static Cell playerSymbol = Cell.X;
     public static Cell computerSymbol = (playerSymbol == Cell.X) ? Cell.O : Cell.X;
+
+    public static boolean engineEnabled = true; // on, off for engine
+    private final boolean playerStarts = true; // decide if player or engine starts
 
     // Screen settings
     private static final int WIDTH = 800;
@@ -25,20 +28,33 @@ public class GamePanel extends JPanel implements Runnable {
     private static final int FPS = 60;
     private static final double DRAW_INTERVAL = 1_000_000_000.0 / FPS;
 
+    public static boolean isGameOver = false;
+
     // Instances
     private Board board;
     private GridCells gridCells;
     private MouseHandler mouse;
     private Assets assets;
+    private Engine engine;
+    private Rules rules;
+    private GameOver gameOver;
+    private ResetGameBtn resetButton;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.setFocusable(true);
+        setLayout(null);
 
         //instances
         initObj();
+
+        // reset game btn
+        resetButton = new ResetGameBtn(board, this);
+        add(resetButton.getResetButton());
+        revalidate();
+        repaint();
     }
 
     public void startGameThread() {
@@ -85,7 +101,15 @@ public class GamePanel extends JPanel implements Runnable {
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
 
-        gridCells = new GridCells(mouse, board, assets);
+        gridCells = new GridCells(mouse, board, assets, this);
+        rules = new Rules(gridCells);
+        engine = new Engine(gridCells, rules);
+        gameOver = new GameOver(rules, board);
+
+        // if engine starts
+        if(engineEnabled && !playerStarts) {
+            engine.playEngineMove();
+        }
     }
 
     // game updates here (called 60 times per second)
@@ -101,8 +125,32 @@ public class GamePanel extends JPanel implements Runnable {
 
         board.draw(g2); // draw the board
         gridCells.draw(g2);
+        gameOver.draw(g2);
 
         g2.dispose();
+    }
+
+    public void switchPlayer() {
+        if(rules.isGameOver()) {
+            isGameOver = true;
+            return;
+        }
+
+        if(engineEnabled) {
+            engine.playEngineMove();
+        } else {
+            playerSymbol = (playerSymbol == Cell.X) ? Cell.O : Cell.X;
+        }
+    }
+
+    public void resetGame() {
+        gridCells.resetCells();
+        rules.setWinner(Cell.EMPTY);
+        isGameOver = false;
+
+        if(engineEnabled && !playerStarts) {
+            engine.playEngineMove();
+        }
     }
 }
 
