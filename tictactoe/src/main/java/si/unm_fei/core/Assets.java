@@ -13,6 +13,8 @@ public final class Assets {
     public Assets() {
         load("/x_white.png");
         load("/o_white.png");
+        load("/x_black.png");
+        load("/o_black.png");
     }
 
     private void load(String path) {
