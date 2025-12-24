@@ -3,7 +3,6 @@ package si.unm_fei.core;
 import si.unm_fei.logic.Kategorija;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 import static si.unm_fei.core.Game.SCREEN_HEIGHT;
@@ -31,7 +30,6 @@ public class MainMenu extends JPanel {
         JComboBox<Kategorija> box = addCategoryBox(gbc);
         addButtons(gbc, game);
 
-        // keep your static in sync even if user never changes selection
         selectedKategorija = (Kategorija) box.getSelectedItem();
     }
     private void addTitle(GridBagConstraints gbc) {
