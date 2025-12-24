@@ -46,7 +46,7 @@ public class GameOver {
     }
 
     private void displayMessage(Graphics2D g2, String msg) {
-        g2.setColor(Color.WHITE);
+        g2.setColor(Color.BLACK);
         Font font = new Font("SansSefif", Font.BOLD, 34);
         FontMetrics fm = g2.getFontMetrics(font);
         g2.setFont(font);

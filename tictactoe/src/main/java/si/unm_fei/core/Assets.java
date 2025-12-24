@@ -15,6 +15,8 @@ public final class Assets {
         load("/o_white.png");
         load("/x_black.png");
         load("/o_black.png");
+
+        load("/unm_logo.png");
     }
 
     private void load(String path) {

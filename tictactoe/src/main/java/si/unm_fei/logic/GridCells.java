@@ -14,7 +14,6 @@ public class GridCells {
 
     MouseHandler mouse;
     Board board;
-    Assets assets;
     GamePanel gp;
 
     public GridCells(MouseHandler mouse, Board board, Assets assets, GamePanel gp) {
@@ -22,11 +21,10 @@ public class GridCells {
 
         this.mouse = mouse;
         this.board = board;
-        this.assets = assets;
         this.gp = gp;
 
-        Xsymbol = assets.getImage("/x_white.png");
-        Osymbol = assets.getImage("/o_white.png");
+        Xsymbol = assets.getImage("/x_black.png");
+        Osymbol = assets.getImage("/o_black.png");
 
     }
 
