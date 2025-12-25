@@ -3,10 +3,14 @@ package si.unm_fei.core;
 import si.unm_fei.logic.*;
 import si.unm_fei.ui.Board;
 import si.unm_fei.ui.GameOver;
+import si.unm_fei.ui.Logo;
 import si.unm_fei.ui.ResetGameBtn;
 
 import javax.swing.*;
 import java.awt.*;
+
+import static si.unm_fei.core.Game.SCREEN_HEIGHT;
+import static si.unm_fei.core.Game.SCREEN_WIDTH;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -16,9 +20,9 @@ public class GamePanel extends JPanel implements Runnable {
     public static boolean engineEnabled = true; // on, off for engine
     private final boolean playerStarts = true; // decide if player or engine starts
 
-    // Screen settings
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 600;
+    // Screen settings, change from game.java
+    private static final int WIDTH = SCREEN_WIDTH;
+    private static final int HEIGHT = SCREEN_HEIGHT;
 
     // Game loop
     private Thread gameThread;
@@ -39,10 +43,11 @@ public class GamePanel extends JPanel implements Runnable {
     private Rules rules;
     private GameOver gameOver;
     private ResetGameBtn resetButton;
+    private Logo logo;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        this.setBackground(Color.BLACK);
+        this.setBackground(Color.WHITE);
         this.setDoubleBuffered(true);
         this.setFocusable(true);
         setLayout(null);
@@ -55,6 +60,7 @@ public class GamePanel extends JPanel implements Runnable {
         add(resetButton.getResetButton());
         revalidate();
         repaint();
+
     }
 
     public void startGameThread() {
@@ -105,6 +111,7 @@ public class GamePanel extends JPanel implements Runnable {
         rules = new Rules(gridCells);
         engine = new Engine(gridCells, rules);
         gameOver = new GameOver(rules, board);
+        logo = new Logo(assets);
 
         // if engine starts
         if(engineEnabled && !playerStarts) {
@@ -126,6 +133,7 @@ public class GamePanel extends JPanel implements Runnable {
         board.draw(g2); // draw the board
         gridCells.draw(g2);
         gameOver.draw(g2);
+        logo.draw(g2);
 
         g2.dispose();
     }
