@@ -117,6 +117,8 @@ public class GamePanel extends JPanel implements Runnable {
         if(engineEnabled && !playerStarts) {
             engine.playEngineMove();
         }
+
+        System.out.println(MainMenu.getKategorija());
     }
 
     // game updates here (called 60 times per second)
