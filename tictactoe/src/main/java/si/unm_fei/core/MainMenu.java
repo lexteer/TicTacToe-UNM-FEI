@@ -10,7 +10,7 @@ import static si.unm_fei.core.Game.SCREEN_WIDTH;
 
 public class MainMenu extends JPanel {
 
-    private static Kategorija selectedKategorija = Kategorija.RAČUNALNIŠTVO;
+    private static Kategorija selectedKategorija = Kategorija.UPRAVLJANJE;
 
     public static Kategorija getKategorija() {
         return selectedKategorija;
@@ -18,7 +18,7 @@ public class MainMenu extends JPanel {
 
     public MainMenu(Game game) {
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-        setBackground(Color.WHITE);
+        //setBackground(Color.WHITE);
         setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -27,27 +27,40 @@ public class MainMenu extends JPanel {
         gbc.fill = GridBagConstraints.NONE;
 
         addTitle(gbc);
-        JComboBox<Kategorija> box = addCategoryBox(gbc);
+        JComboBox<String> box = addCategoryBox(gbc);
         addButtons(gbc, game);
 
-        selectedKategorija = (Kategorija) box.getSelectedItem();
+        String selectedLabel = (String) box.getSelectedItem();
+        selectedKategorija = Kategorija.fromString(selectedLabel);
+
     }
     private void addTitle(GridBagConstraints gbc) {
-        JLabel title = new JLabel("Tic Tac Toe Kviz");
-        title.setFont(title.getFont().deriveFont(Font.BOLD, 50f));
+        JLabel title = new JLabel("Križec Krožec Kviz");
+        Font titleFont = new Font("SansSerif", Font.BOLD, 52);
+        title.setFont(titleFont);
+        title.setForeground(new Color(45, 45, 45));
 
         gbc.gridy = 0;
         gbc.insets = new Insets(0, 0, 25, 0); // space under title
         add(title, gbc);
     }
 
-    private JComboBox<Kategorija> addCategoryBox(GridBagConstraints gbc) {
-        JComboBox<Kategorija> kategorijaBox = new JComboBox<>(Kategorija.values());
-        kategorijaBox.setPreferredSize(new Dimension(260, 28));
+    private JComboBox<String> addCategoryBox(GridBagConstraints gbc) {
+        JComboBox<String> kategorijaBox = new JComboBox<>();
 
-        kategorijaBox.addActionListener(e ->
-                selectedKategorija = (Kategorija) kategorijaBox.getSelectedItem()
-        );
+        // fill combo box
+        for(Kategorija k : Kategorija.values()) {
+            kategorijaBox.addItem(k.getFullName());
+        }
+
+        kategorijaBox.setPreferredSize(new Dimension(260, 28));
+        kategorijaBox.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        kategorijaBox.setBackground(Color.WHITE);
+
+        kategorijaBox.addActionListener(e -> {
+            String selectedLabel = (String) kategorijaBox.getSelectedItem();
+            selectedKategorija = Kategorija.fromString(selectedLabel);
+        });
 
         gbc.gridy = 1;
         gbc.insets = new Insets(0, 0, 10, 0);
@@ -75,8 +88,29 @@ public class MainMenu extends JPanel {
     private JButton createButton(String text, int w, int h) {
         JButton b = new JButton(text);
         b.setPreferredSize(new Dimension(w, h));
+        b.setFocusPainted(false);
+        b.setFont(new Font("SansSerif", Font.BOLD, 14));
+        b.setBackground(new Color(90, 200, 140));
+        b.setForeground(Color.WHITE);
         return b;
     }
+
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setPaint(new GradientPaint(
+                0, 0, new Color(245, 248, 252),
+                0, getHeight(), new Color(220, 228, 238)
+        ));
+        g2.fillRect(0, 0, getWidth(), getHeight());
+
+    }
+
+
+
 
 }
 
