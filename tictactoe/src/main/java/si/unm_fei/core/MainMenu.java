@@ -9,13 +9,19 @@ import java.awt.*;
 import static si.unm_fei.core.Game.SCREEN_HEIGHT;
 import static si.unm_fei.core.Game.SCREEN_WIDTH;
 
-public class MainMenu extends JPanel {
+public class MainMenu extends JPanel implements Runnable {
+    // Game loop
+    private Thread gameThread;
+    private boolean running = false;
+
+    // FPS
+    private static final int FPS = 60;
+    private static final double DRAW_INTERVAL = 1_000_000_000.0 / FPS;
+
     Logo logo;
     private Timer animTimer;
     // bg animation
     private static float yLevel = SCREEN_HEIGHT/2;
-    private static final float TARGET_Y = 200f;
-    private static final float STEP = 10f;
 
     private static Kategorija selectedKategorija = GamePanel.oldCategory;
     Cursor handCursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
@@ -51,8 +57,48 @@ public class MainMenu extends JPanel {
 
         logo = new Logo(assets);
 
-        startGradientAnimation();
     }
+
+    public synchronized void startGameThread() {
+        if (running) return;
+
+        running = true;
+        gameThread = new Thread(this, "GameThread");
+        gameThread.start();
+    }
+
+
+    @Override
+    public void run() {
+        double nextDrawTime = System.nanoTime() + DRAW_INTERVAL;
+
+        while (running && !Thread.currentThread().isInterrupted()) {
+
+            float yEnd = getHeight() / 2f;
+            if (yLevel > yEnd) {
+                yLevel = Math.max(yEnd, yLevel - 10f);
+            }
+
+            repaint();
+
+            try {
+                double remainingTime = nextDrawTime - System.nanoTime();
+                remainingTime /= 1_000_000;
+
+                if (remainingTime < 0) {
+                    remainingTime = 0;
+                }
+
+                Thread.sleep((long) remainingTime);
+                nextDrawTime += DRAW_INTERVAL;
+
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+        }
+    }
+
     private void addTitle(GridBagConstraints gbc) {
         JLabel title = new JLabel("Križec Krožec Kviz");
         Font titleFont = new Font("SansSerif", Font.BOLD, 52);
@@ -95,7 +141,11 @@ public class MainMenu extends JPanel {
         JButton newGame = createButton("Začni", 260, 40);
         JButton quit = createButton("Izhod", 260, 40);
 
-        newGame.addActionListener(e -> game.startNewGame());
+        newGame.addActionListener(e -> {
+            stopGameThread();
+            game.startNewGame();
+        });
+
         quit.addActionListener(e -> System.exit(0));
 
         newGame.setCursor(handCursor);
@@ -110,6 +160,14 @@ public class MainMenu extends JPanel {
         add(quit, gbc);
     }
 
+    public synchronized void stopGameThread() {
+        running = false;
+        if (gameThread != null) {
+            gameThread.interrupt();
+            gameThread = null;
+        }
+    }
+
     private JButton createButton(String text, int w, int h) {
         JButton b = new JButton(text);
         b.setPreferredSize(new Dimension(w, h));
@@ -118,19 +176,6 @@ public class MainMenu extends JPanel {
         b.setBackground(new Color(90, 200, 140));
         b.setForeground(Color.WHITE);
         return b;
-    }
-    public void startGradientAnimation() {
-        if (animTimer != null && animTimer.isRunning()) animTimer.stop();
-
-        animTimer = new Timer(16, e -> {
-            if (yLevel > TARGET_Y) {
-                yLevel = Math.max(TARGET_Y, yLevel - STEP);
-                repaint();
-            } else {
-                ((Timer) e.getSource()).stop();
-            }
-        });
-        animTimer.start();
     }
 
     @Override

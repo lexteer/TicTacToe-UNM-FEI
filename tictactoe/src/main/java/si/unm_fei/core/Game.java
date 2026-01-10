@@ -28,9 +28,12 @@ public class Game {
     }
 
     public void showMainMenu() {
-        frame.setContentPane(new MainMenu(this, assets));
+        MainMenu mainMenu = new MainMenu(this, assets);
+        frame.setContentPane(mainMenu);
         frame.revalidate();
         frame.repaint();
+
+        mainMenu.startGameThread();
     }
 
     public void startNewGame() {
