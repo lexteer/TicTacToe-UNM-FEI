@@ -1,10 +1,7 @@
 package si.unm_fei.core;
 
 import si.unm_fei.logic.*;
-import si.unm_fei.ui.Board;
-import si.unm_fei.ui.GameOver;
-import si.unm_fei.ui.Logo;
-import si.unm_fei.ui.ResetGameBtn;
+import si.unm_fei.ui.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +10,8 @@ import static si.unm_fei.core.Game.SCREEN_HEIGHT;
 import static si.unm_fei.core.Game.SCREEN_WIDTH;
 
 public class GamePanel extends JPanel implements Runnable {
+
+    private Game game;
 
     public static Cell playerSymbol = Cell.X;
     public static Cell computerSymbol = (playerSymbol == Cell.X) ? Cell.O : Cell.X;
@@ -44,8 +43,11 @@ public class GamePanel extends JPanel implements Runnable {
     private GameOver gameOver;
     private ResetGameBtn resetButton;
     private Logo logo;
+    private QuestionManager questionManager;
 
-    public GamePanel() {
+    public GamePanel(Game game) {
+        this.game=game;
+
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setBackground(Color.WHITE);
         this.setDoubleBuffered(true);
@@ -113,6 +115,9 @@ public class GamePanel extends JPanel implements Runnable {
         gameOver = new GameOver(rules, board);
         logo = new Logo(assets);
 
+        Kategorija selectedCategory = MainMenu.getKategorija();
+        questionManager = new QuestionManager(selectedCategory);
+
         // if engine starts
         if(engineEnabled && !playerStarts) {
             engine.playEngineMove();
@@ -153,7 +158,31 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    public void resetGame() {
+    public boolean showQuestionAndGetResult() {
+        Question q = questionManager.getRandomQuestion();
+
+        if (q == null) {
+            JOptionPane.showMessageDialog(this, "Zmanjkalo je vprašanj!");
+            return false;
+        }
+
+        // Pridobi JFrame parent
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        QuestionPopUp popup = new QuestionPopUp(parentFrame, q);
+
+        // ✅ Popup mora vrniti true/false
+        return popup.showAndGetResult();
+    }
+
+    public void returnToMainMenu() {
+        running = false;  // Ustavi game loop
+        if (gameThread != null) {
+            gameThread.interrupt();
+        }
+        game.showMainMenu();  // Vrni se v MainMenu
+    }
+
+    /*public void resetGame() {
         gridCells.resetCells();
         rules.setWinner(Cell.EMPTY);
         isGameOver = false;
@@ -161,6 +190,21 @@ public class GamePanel extends JPanel implements Runnable {
         if(engineEnabled && !playerStarts) {
             engine.playEngineMove();
         }
+    }*/
+
+    public void resetGame() {
+        Kategorija selectedCategory = MainMenu.getKategorija();
+        questionManager = new QuestionManager(selectedCategory);
+
+        gridCells.resetCells();
+        rules.setWinner(Cell.EMPTY);
+        isGameOver = false;
+
+        if(engineEnabled && !playerStarts) {
+            engine.playEngineMove();
+        }
+        returnToMainMenu();
     }
+
 }
 

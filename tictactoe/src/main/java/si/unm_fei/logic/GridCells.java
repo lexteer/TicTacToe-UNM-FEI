@@ -75,11 +75,15 @@ public class GridCells {
             int index = mouse.getLocationIndex();
             if(index == -1 || getStatus(index) != Cell.EMPTY) return;
 
-
-
-            setStatus(index, GamePanel.playerSymbol);
-
-            gp.switchPlayer();
+            boolean correctAnswer = gp.showQuestionAndGetResult();
+            if(correctAnswer){
+                setStatus(index, GamePanel.playerSymbol);
+                gp.switchPlayer();
+            }else{ // računalnik postavi znak lahko čaka če se else odstrani
+                gp.switchPlayer();
+            }
+            /*setStatus(index, GamePanel.playerSymbol);
+            gp.switchPlayer();*/
 
             mouse.setPressed(false);
         }

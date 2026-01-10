@@ -1,0 +1,802 @@
+[
+  {
+    "question": "Kaj je osnova vsakega podjetja?",
+    "category": "UPRAVLJANJE",
+    "correct": "Ideja",
+    "answers": [
+      "Ideja",
+      "Pisarna",
+      "Internet"
+    ]
+  },
+  {
+    "question": "Kaj dela dober vodja?",
+    "category": "UPRAVLJANJE",
+    "correct": "Navdihuje",
+    "answers": [
+      "Ukazuje",
+      "Navdihuje",
+      "Nadzoruje"
+    ]
+  },
+  {
+    "question": "Kaj podjetje prodaja?",
+    "category": "UPRAVLJANJE",
+    "correct": "Izdelke ali storitve",
+    "answers": [
+      "Izdelke ali storitve",
+      "Dokumente",
+      "Računalnike"
+    ]
+  },
+  {
+    "question": "Kaj je cilj poslovanja?",
+    "category": "UPRAVLJANJE",
+    "correct": "Rast in uspeh",
+    "answers": [
+      "Rast in uspeh",
+      "Več sestankov",
+      "Manj dela"
+    ]
+  },
+  {
+    "question": "Kaj pomeni management?",
+    "category": "UPRAVLJANJE",
+    "correct": "Vodenje",
+    "answers": [
+      "Vodenje",
+      "Programiranje",
+      "Oblikovanje"
+    ]
+  },
+  {
+    "question": "Kaj motivira zaposlene?",
+    "category": "UPRAVLJANJE",
+    "correct": "Zaupanje",
+    "answers": [
+      "Zaupanje",
+      "Stroga pravila",
+      "Naključje"
+    ]
+  },
+  {
+    "question": "Kaj pove, kam podjetje gre?",
+    "category": "UPRAVLJANJE",
+    "correct": "Strategija",
+    "answers": [
+      "Strategija",
+      "Sreča",
+      "Oglas"
+    ]
+  },
+  {
+    "question": "Kaj meri uspešnost?",
+    "category": "UPRAVLJANJE",
+    "correct": "Rezultati",
+    "answers": [
+      "Rezultati",
+      "Ure dela",
+      "Starost podjetja"
+    ]
+  },
+  {
+    "question": "Kaj povezuje ekipo?",
+    "category": "UPRAVLJANJE",
+    "correct": "Sodelovanje",
+    "answers": [
+      "Sodelovanje",
+      "Tekmovanje",
+      "Tišina"
+    ]
+  },
+  {
+    "question": "Kaj je kupec?",
+    "category": "UPRAVLJANJE",
+    "correct": "Oseba, ki kupi izdelek",
+    "answers": [
+      "Oseba, ki kupi izdelek",
+      "Lastnik",
+      "Zaposleni"
+    ]
+  },
+  {
+    "question": "Kaj pomeni trg?",
+    "category": "UPRAVLJANJE",
+    "correct": "Izmenjava ponudbe in povpraševanja",
+    "answers": [
+      "Izmenjava ponudbe in povpraševanja",
+      "Nakupovalni center",
+      "C"
+    ]
+  },
+  {
+    "question": "Kaj gradi zaupanje?",
+    "category": "UPRAVLJANJE",
+    "correct": "Poštenost",
+    "answers": [
+      "Poštenost",
+      "Naključje",
+      "Hitenje"
+    ]
+  },
+  {
+    "question": "Kaj je poslovni načrt?",
+    "category": "UPRAVLJANJE",
+    "correct": "Načrt ideje",
+    "answers": [
+      "Načrt ideje",
+      "Reklama",
+      "Pogodba"
+    ]
+  },
+  {
+    "question": "Kaj pomaga pri odločanju?",
+    "category": "UPRAVLJANJE",
+    "correct": "Analiza",
+    "answers": [
+      "Analiza",
+      "Ugibanje",
+      "Navada"
+    ]
+  },
+  {
+    "question": "Kaj omogoča rast podjetja?",
+    "category": "UPRAVLJANJE",
+    "correct": "Razvoj",
+    "answers": [
+      "Razvoj",
+      "Stagnacija",
+      "Čakanje"
+    ]
+  },
+  {
+    "question": "Kaj pomeni podjetništvo?",
+    "category": "UPRAVLJANJE",
+    "correct": "Ustvarjanje priložnosti",
+    "answers": [
+      "Ustvarjanje priložnosti",
+      "Rutina",
+      "Sledenje"
+    ]
+  },
+  {
+    "question": "Kaj povezuje ponudnike in kupce?",
+    "category": "UPRAVLJANJE",
+    "correct": "Trg",
+    "answers": [
+      "Trg",
+      "Internet",
+      "Zgradba"
+    ]
+  },
+  {
+    "question": "Kaj je ključ vodenja?",
+    "category": "UPRAVLJANJE",
+    "correct": "Odgovornost",
+    "answers": [
+      "Odgovornost",
+      "Kontrola",
+      "Naključje"
+    ]
+  },
+  {
+    "question": "Kaj gradi dolgoročni uspeh?",
+    "category": "UPRAVLJANJE",
+    "correct": "Strategija",
+    "answers": [
+      "Strategija",
+      "Hiter dobiček",
+      "Sreča"
+    ]
+  },
+  {
+    "question": "Kaj je srce podjetja?",
+    "category": "UPRAVLJANJE",
+    "correct": "Ljudje",
+    "answers": [
+      "Ljudje",
+      "Stroji",
+      "Stavba"
+    ]
+  },
+  {
+    "question": "Kaj povezuje posel in tehnologijo?",
+    "category": "INFORMATIKA",
+    "correct": "Poslovna informatika",
+    "answers": [
+      "Poslovna informatika",
+      "Marketing",
+      "Oblikovanje"
+    ]
+  },
+  {
+    "question": "Kaj podjetja zbirajo vsak dan?",
+    "category": "INFORMATIKA",
+    "correct": "Podatke",
+    "answers": [
+      "Podatke",
+      "Papir",
+      "Ideje"
+    ]
+  },
+  {
+    "question": "Kaj pomaga pri odločanju?",
+    "category": "INFORMATIKA",
+    "correct": "Informacije",
+    "answers": [
+      "Informacije",
+      "Občutki",
+      "Naključje"
+    ]
+  },
+  {
+    "question": "Kaj omogoča digitalizacija?",
+    "category": "INFORMATIKA",
+    "correct": "Hitrejše procese",
+    "answers": [
+      "Hitrejše procese",
+      "Več papirja",
+      "Manj podatkov"
+    ]
+  },
+  {
+    "question": "Kaj pomeni IT?",
+    "category": "INFORMATIKA",
+    "correct": "Informacijska tehnologija",
+    "answers": [
+      "Informacijska tehnologija",
+      "Internetni tisk",
+      "Interna"
+    ]
+  },
+  {
+    "question": "Kaj je podatkovna baza?",
+    "category": "INFORMATIKA",
+    "correct": "Zbirka podatkov",
+    "answers": [
+      "Zbirka podatkov",
+      "Spletna stran",
+      "Dokument"
+    ]
+  },
+  {
+    "question": "Kaj je ERP sistem?",
+    "category": "INFORMATIKA",
+    "correct": "Sistem za vire podjetja",
+    "answers": [
+      "Sistem za vire podjetja",
+      "Program za risanje",
+      "Igra"
+    ]
+  },
+  {
+    "question": "Kaj omogoča CRM?",
+    "category": "INFORMATIKA",
+    "correct": "Upravljanje strank",
+    "answers": [
+      "Upravljanje strank",
+      "Računovodstvo",
+      "Oblikovanje"
+    ]
+  },
+  {
+    "question": "Kaj izboljšuje učinkovitost?",
+    "category": "INFORMATIKA",
+    "correct": "Avtomatizacija",
+    "answers": [
+      "Avtomatizacija",
+      "Zapleti",
+      "Zamude"
+    ]
+  },
+  {
+    "question": "Kaj analizira poslovna informatika?",
+    "category": "INFORMATIKA",
+    "correct": "Podatke",
+    "answers": [
+      "Podatke",
+      "Barve",
+      "Glasbo"
+    ]
+  },
+  {
+    "question": "Kaj omogoča nadzor procesov?",
+    "category": "INFORMATIKA",
+    "correct": "Informacijski sistem",
+    "answers": [
+      "Informacijski sistem",
+      "Sestanki",
+      "Telefon"
+    ]
+  },
+  {
+    "question": "Kaj pomeni digitalna preobrazba?",
+    "category": "INFORMATIKA",
+    "correct": "Sprememba poslovanja z IT",
+    "answers": [
+      "Sprememba poslovanja z IT",
+      "Nakup računalnika",
+      "Nova pisarna"
+    ]
+  },
+  {
+    "question": "Kaj podpira vodstvo?",
+    "category": "INFORMATIKA",
+    "correct": "Analitika",
+    "answers": [
+      "Analitika",
+      "Ugibanje",
+      "Občutki"
+    ]
+  },
+  {
+    "question": "Kaj je BI?",
+    "category": "INFORMATIKA",
+    "correct": "Poslovna inteligenca",
+    "answers": [
+      "Poslovna inteligenca",
+      "Blagovna identiteta",
+      "Bančni izpis"
+    ]
+  },
+  {
+    "question": "Kaj povezuje oddelke podjetja?",
+    "category": "INFORMATIKA",
+    "correct": "Sistem",
+    "answers": [
+      "Sistem",
+      "Hodnik",
+      "Koledar"
+    ]
+  },
+  {
+    "question": "Kaj zmanjšuje napake?",
+    "category": "INFORMATIKA",
+    "correct": "Avtomatizacija",
+    "answers": [
+      "Avtomatizacija",
+      "Hitenje",
+      "Naključje"
+    ]
+  },
+  {
+    "question": "Kaj pomeni digitalno poslovanje?",
+    "category": "INFORMATIKA",
+    "correct": "Poslovanje z IT podporo",
+    "answers": [
+      "Poslovanje z IT podporo",
+      "Delo od doma",
+      "Spletna trgovina"
+    ]
+  },
+  {
+    "question": "Kaj je ključ digitalne dobe?",
+    "category": "INFORMATIKA",
+    "correct": "Podatki",
+    "answers": [
+      "Podatki",
+      "Papir",
+      "Telefon"
+    ]
+  },
+  {
+    "question": "Kaj izboljša preglednost?",
+    "category": "INFORMATIKA",
+    "correct": "Informacije",
+    "answers": [
+      "Informacije",
+      "Zapisi",
+      "Ugibanje"
+    ]
+  },
+  {
+    "question": "Kaj povezuje ljudi in tehnologijo?",
+    "category": "INFORMATIKA",
+    "correct": "Poslovna informatika",
+    "answers": [
+      "Poslovna informatika",
+      "Programiranje",
+      "Oblikovanje"
+    ]
+  },
+  {
+    "question": "Kaj je osnova vsake aplikacije?",
+    "category": "RACUNALNISTVO",
+    "correct": "Koda",
+    "answers": [
+      "Koda",
+      "Internet",
+      "Tipkovnica"
+    ]
+  },
+  {
+    "question": "Kaj rešuje probleme?",
+    "category": "RACUNALNISTVO",
+    "correct": "Algoritem",
+    "answers": [
+      "Algoritem",
+      "Monitor",
+      "Miška"
+    ]
+  },
+  {
+    "question": "Kaj piše programer?",
+    "category": "RACUNALNISTVO",
+    "correct": "Program",
+    "answers": [
+      "Program",
+      "Dokument",
+      "Poročilo"
+    ]
+  },
+  {
+    "question": "Kaj razume računalnik?",
+    "category": "RACUNALNISTVO",
+    "correct": "Ukaze",
+    "answers": [
+      "Ukaze",
+      "Čustva",
+      "Barve"
+    ]
+  },
+  {
+    "question": "Kaj povezuje računalnike?",
+    "category": "RACUNALNISTVO",
+    "correct": "Omrežje",
+    "answers": [
+      "Omrežje",
+      "Zaslon",
+      "Tipka"
+    ]
+  },
+  {
+    "question": "Kaj je programski jezik?",
+    "category": "RACUNALNISTVO",
+    "correct": "Orodje za kodo",
+    "answers": [
+      "Orodje za kodo",
+      "Govor",
+      "Aplikacija"
+    ]
+  },
+  {
+    "question": "Kaj pomeni debugiranje?",
+    "category": "RACUNALNISTVO",
+    "correct": "Odpravljanje napak",
+    "answers": [
+      "Odpravljanje napak",
+      "Oblikovanje",
+      "Testiranje znanja"
+    ]
+  },
+  {
+    "question": "Kaj brez kode ne deluje?",
+    "category": "RACUNALNISTVO",
+    "correct": "Program",
+    "answers": [
+      "Program",
+      "Papir",
+      "Miza"
+    ]
+  },
+  {
+    "question": "Kaj shranjuje podatke?",
+    "category": "RACUNALNISTVO",
+    "correct": "Pomnilnik",
+    "answers": [
+      "Pomnilnik",
+      "Monitor",
+      "Tipkovnica"
+    ]
+  },
+  {
+    "question": "Kaj je spletna aplikacija?",
+    "category": "RACUNALNISTVO",
+    "correct": "Program na spletu",
+    "answers": [
+      "Program na spletu",
+      "Dokument",
+      "Igra brez kode"
+    ]
+  },
+  {
+    "question": "Kaj omogoča avtomatizacijo?",
+    "category": "RACUNALNISTVO",
+    "correct": "Programiranje",
+    "answers": [
+      "Programiranje",
+      "Risanje",
+      "Tipkanje"
+    ]
+  },
+  {
+    "question": "Kaj je UI?",
+    "category": "RACUNALNISTVO",
+    "correct": "Uporabniški vmesnik",
+    "answers": [
+      "Uporabniški vmesnik",
+      "Uporabniški internet",
+      "Notranji ukaz"
+    ]
+  },
+  {
+    "question": "Kaj je osnova logike?",
+    "category": "RACUNALNISTVO",
+    "correct": "Zaporedje",
+    "answers": [
+      "Zaporedje",
+      "Naključje",
+      "Ugibanje"
+    ]
+  },
+  {
+    "question": "Kaj poganja digitalni svet?",
+    "category": "RACUNALNISTVO",
+    "correct": "Programska oprema",
+    "answers": [
+      "Programska oprema",
+      "Papir",
+      "Sestanki"
+    ]
+  },
+  {
+    "question": "Kaj pomeni open source?",
+    "category": "RACUNALNISTVO",
+    "correct": "Odprta koda",
+    "answers": [
+      "Odprta koda",
+      "Brezplačen internet",
+      "Javna stran"
+    ]
+  },
+  {
+    "question": "Kaj ustvarja programer?",
+    "category": "RACUNALNISTVO",
+    "correct": "Rešitve",
+    "answers": [
+      "Rešitve",
+      "Težave",
+      "Papir"
+    ]
+  },
+  {
+    "question": "Kaj omogoča razvoj aplikacij?",
+    "category": "RACUNALNISTVO",
+    "correct": "Znanje",
+    "answers": [
+      "Znanje",
+      "Sreča",
+      "Hitrost"
+    ]
+  },
+  {
+    "question": "Kaj je API?",
+    "category": "RACUNALNISTVO",
+    "correct": "Vmesnik programov",
+    "answers": [
+      "Vmesnik programov",
+      "Program za risanje",
+      "Internetna stran"
+    ]
+  },
+  {
+    "question": "Kaj se hitro spreminja?",
+    "category": "RACUNALNISTVO",
+    "correct": "Tehnologija",
+    "answers": [
+      "Tehnologija",
+      "Narava",
+      "Pravila"
+    ]
+  },
+  {
+    "question": "Kaj je prihodnost dela?",
+    "category": "RACUNALNISTVO",
+    "correct": "Digitalna",
+    "answers": [
+      "Digitalna",
+      "Ročna",
+      "Naključna"
+    ]
+  },
+  {
+    "question": "Kaj varujemo za prihodnost?",
+    "category": "OKOLJE",
+    "correct": "Okolje",
+    "answers": [
+      "Okolje",
+      "Stavbe",
+      "Stroje"
+    ]
+  },
+  {
+    "question": "Kaj pomeni trajnost?",
+    "category": "OKOLJE",
+    "correct": "Ravnovesje",
+    "answers": [
+      "Ravnovesje",
+      "Hitenje",
+      "Poraba"
+    ]
+  },
+  {
+    "question": "Kaj zmanjšujemo?",
+    "category": "OKOLJE",
+    "correct": "Odpadke",
+    "answers": [
+      "Odpadke",
+      "Drevesa",
+      "Energijo"
+    ]
+  },
+  {
+    "question": "Kaj so OVE?",
+    "category": "OKOLJE",
+    "correct": "Obnovljivi viri energije",
+    "answers": [
+      "Obnovljivi viri energije",
+      "Odpadki",
+      "Stroji"
+    ]
+  },
+  {
+    "question": "Kaj pomeni recikliranje?",
+    "category": "OKOLJE",
+    "correct": "Ponovna uporaba",
+    "answers": [
+      "Ponovna uporaba",
+      "Sežiganje",
+      "Odlaganje"
+    ]
+  },
+  {
+    "question": "Kaj je krožno gospodarstvo?",
+    "category": "OKOLJE",
+    "correct": "Ponovna raba virov",
+    "answers": [
+      "Ponovna raba virov",
+      "Enkratna uporaba",
+      "Izvoz"
+    ]
+  },
+  {
+    "question": "Kaj onesnažuje okolje?",
+    "category": "OKOLJE",
+    "correct": "Odpadki",
+    "answers": [
+      "Odpadki",
+      "Drevesa",
+      "Voda"
+    ]
+  },
+  {
+    "question": "Kaj pomeni sonaravno?",
+    "category": "OKOLJE",
+    "correct": "Usklajeno z naravo",
+    "answers": [
+      "Usklajeno z naravo",
+      "Hitro",
+      "Poceni"
+    ]
+  },
+  {
+    "question": "Kaj varuje naravo?",
+    "category": "OKOLJE",
+    "correct": "Trajnostni razvoj",
+    "answers": [
+      "Trajnostni razvoj",
+      "Potrošnja",
+      "Rast brez meja"
+    ]
+  },
+  {
+    "question": "Kaj izboljšuje kakovost življenja?",
+    "category": "OKOLJE",
+    "correct": "Čisto okolje",
+    "answers": [
+      "Čisto okolje",
+      "Promet",
+      "Odpadki"
+    ]
+  },
+  {
+    "question": "Kaj zmanjšuje vplive na okolje?",
+    "category": "OKOLJE",
+    "correct": "Ukrepi",
+    "answers": [
+      "Ukrepi",
+      "Ignoriranje",
+      "Zamude"
+    ]
+  },
+  {
+    "question": "Kaj je ekološki odtis?",
+    "category": "OKOLJE",
+    "correct": "Vpliv na okolje",
+    "answers": [
+      "Vpliv na okolje",
+      "Površina gozda",
+      "Velikost mesta"
+    ]
+  },
+  {
+    "question": "Kaj spodbuja trajnost?",
+    "category": "OKOLJE",
+    "correct": "Zavedanje",
+    "answers": [
+      "Zavedanje",
+      "Nepazljivost",
+      "Hitenje"
+    ]
+  },
+  {
+    "question": "Kaj pomeni zelena energija?",
+    "category": "OKOLJE",
+    "correct": "Čista energija",
+    "answers": [
+      "Čista energija",
+      "Draga energija",
+      "Hitra energija"
+    ]
+  },
+  {
+    "question": "Kaj ohranja vire?",
+    "category": "OKOLJE",
+    "correct": "Varčnost",
+    "answers": [
+      "Varčnost",
+      "Poraba",
+      "Odmetavanje"
+    ]
+  },
+  {
+    "question": "Kaj je cilj varovanja okolja?",
+    "category": "OKOLJE",
+    "correct": "Prihodnost",
+    "answers": [
+      "Prihodnost",
+      "Nadzor",
+      "Prepovedi"
+    ]
+  },
+  {
+    "question": "Kaj povezuje okolje in gospodarstvo?",
+    "category": "OKOLJE",
+    "correct": "Trajnost",
+    "answers": [
+      "Trajnost",
+      "Naključje",
+      "Konkurenca"
+    ]
+  },
+  {
+    "question": "Kaj pomeni odgovorno ravnanje?",
+    "category": "OKOLJE",
+    "correct": "Skrb za okolje",
+    "answers": [
+      "Skrb za okolje",
+      "Hitro delovanje",
+      "Ignoriranje"
+    ]
+  },
+  {
+    "question": "Kaj zmanjšuje emisije?",
+    "category": "OKOLJE",
+    "correct": "Obnovljivi viri",
+    "answers": [
+      "Obnovljivi viri",
+      "Promet",
+      "Industrija"
+    ]
+  },
+  {
+    "question": "Kaj je prihodnost razvoja?",
+    "category": "OKOLJE",
+    "correct": "Trajnostna",
+    "answers": [
+      "Trajnostna",
+      "Naključna",
+      "Kratkoročna"
+    ]
+  }
+]
