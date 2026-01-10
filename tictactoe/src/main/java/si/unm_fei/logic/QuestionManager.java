@@ -20,5 +20,9 @@ public class QuestionManager {
         int index = random.nextInt(remainingQuestions.size());
         return remainingQuestions.remove(index);
     }
+
+    public void resetQuestions() {
+        remainingQuestions.clear();
+    }
 }
 

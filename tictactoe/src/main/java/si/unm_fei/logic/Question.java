@@ -12,8 +12,5 @@ public class Question {
         this.correct = correct;
         this.kategorija=kategorija;
     }
-    public Kategorija getKategorija(){
-        return kategorija;
-    }
 }
 

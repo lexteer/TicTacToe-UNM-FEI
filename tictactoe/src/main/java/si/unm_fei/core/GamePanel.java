@@ -33,9 +33,15 @@ public class GamePanel extends JPanel implements Runnable {
 
     public static boolean isGameOver = false;
 
+    // save selected category
+    public static Kategorija oldCategory;
+
+    // bg animation
+    private float yLevel = SCREEN_HEIGHT/2;
+
     // Instances
     private Board board;
-    private GridCells gridCells;
+    public GridCells gridCells;
     private MouseHandler mouse;
     private Assets assets;
     private Engine engine;
@@ -45,8 +51,9 @@ public class GamePanel extends JPanel implements Runnable {
     private Logo logo;
     private QuestionManager questionManager;
 
-    public GamePanel(Game game) {
+    public GamePanel(Game game, Assets assets) {
         this.game=game;
+        this.assets = assets;
 
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setBackground(Color.WHITE);
@@ -57,6 +64,8 @@ public class GamePanel extends JPanel implements Runnable {
         //instances
         initObj();
 
+        oldCategory = MainMenu.getKategorija();
+
         // reset game btn
         resetButton = new ResetGameBtn(board, this);
         add(resetButton.getResetButton());
@@ -65,13 +74,14 @@ public class GamePanel extends JPanel implements Runnable {
 
     }
 
-    public void startGameThread() {
-        if (gameThread == null) {
-            running = true;
-            gameThread = new Thread(this, "GameThread");
-            gameThread.start();
-        }
+    public synchronized void startGameThread() {
+        if (running) return;
+
+        running = true;
+        gameThread = new Thread(this, "GameThread");
+        gameThread.start();
     }
+
 
     @Override
     public void run() {
@@ -102,10 +112,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Instantiate game objects here
     private void initObj() {
-        assets = new Assets();
         board = new Board(WIDTH, HEIGHT);
 
-        mouse = new MouseHandler(board);
+        mouse = new MouseHandler(this, board);
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
 
@@ -114,16 +123,12 @@ public class GamePanel extends JPanel implements Runnable {
         engine = new Engine(gridCells, rules);
         gameOver = new GameOver(rules, board);
         logo = new Logo(assets);
-
-        Kategorija selectedCategory = MainMenu.getKategorija();
-        questionManager = new QuestionManager(selectedCategory);
+        questionManager = new QuestionManager(MainMenu.getKategorija());
 
         // if engine starts
         if(engineEnabled && !playerStarts) {
             engine.playEngineMove();
         }
-
-        System.out.println(MainMenu.getKategorija());
     }
 
     // game updates here (called 60 times per second)
@@ -137,12 +142,33 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g.create();
 
+        drawGradient(g2);
+
+
         board.draw(g2); // draw the board
         gridCells.draw(g2);
         gameOver.draw(g2);
         logo.draw(g2);
 
         g2.dispose();
+    }
+
+    private void drawGradient(Graphics2D g2) {
+        float yEnd = 520;
+
+        if(yLevel < yEnd) {
+            yLevel += 10;
+            MainMenu.setYLevel(yLevel);
+        }
+
+        g2.setPaint(new GradientPaint(
+                0, yLevel, new Color(245, 248, 252),
+                0, getHeight(), new Color(188, 215, 173)
+        ));
+
+        g2.fillRect(0, 0, getWidth(), getHeight());
+
+
     }
 
     public void switchPlayer() {
@@ -168,33 +194,33 @@ public class GamePanel extends JPanel implements Runnable {
 
         // Pridobi JFrame parent
         JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        QuestionPopUp popup = new QuestionPopUp(parentFrame, q);
+        QuestionPopUp popup = new QuestionPopUp(parentFrame, q, gridCells);
 
-        // ✅ Popup mora vrniti true/false
         return popup.showAndGetResult();
     }
 
     public void returnToMainMenu() {
-        running = false;  // Ustavi game loop
+        running = false;
+
         if (gameThread != null) {
-            gameThread.interrupt();
+            try {
+                gameThread.join(); // wait for clean exit
+            } catch (InterruptedException ignored) {
+                Thread.currentThread().interrupt();
+            }
+            gameThread = null;
         }
-        game.showMainMenu();  // Vrni se v MainMenu
+
+        removeMouseListener(mouse);
+        removeMouseMotionListener(mouse);
+
+        game.showMainMenu();
+
+        MainMenu.setKategorija(oldCategory);
     }
 
-    /*public void resetGame() {
-        gridCells.resetCells();
-        rules.setWinner(Cell.EMPTY);
-        isGameOver = false;
-
-        if(engineEnabled && !playerStarts) {
-            engine.playEngineMove();
-        }
-    }*/
-
     public void resetGame() {
-        Kategorija selectedCategory = MainMenu.getKategorija();
-        questionManager = new QuestionManager(selectedCategory);
+        questionManager = new QuestionManager(MainMenu.getKategorija());
 
         gridCells.resetCells();
         rules.setWinner(Cell.EMPTY);
@@ -203,6 +229,9 @@ public class GamePanel extends JPanel implements Runnable {
         if(engineEnabled && !playerStarts) {
             engine.playEngineMove();
         }
+
+        questionManager.resetQuestions();
+
         returnToMainMenu();
     }
 

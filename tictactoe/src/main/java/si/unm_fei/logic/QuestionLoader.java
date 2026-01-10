@@ -59,15 +59,3 @@ public class QuestionLoader {
     }
 }
 
-/*public class QuestionLoader {
-
-    public static List<Question> load(String path) {
-        try {
-            Gson gson = new Gson();
-            Type listType = new TypeToken<List<Question>>() {}.getType();
-            return gson.fromJson(new FileReader(path), listType);
-        } catch (Exception e) {
-            throw new RuntimeException("Napaka pri branju JSON", e);
-        }
-    }
-}*/

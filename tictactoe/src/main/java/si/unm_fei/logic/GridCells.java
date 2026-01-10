@@ -15,6 +15,9 @@ public class GridCells {
     MouseHandler mouse;
     Board board;
     GamePanel gp;
+    public boolean hover = false;
+    public int hoverIndex = -1;
+    public int currentIndex = -1;
 
     public GridCells(MouseHandler mouse, Board board, Assets assets, GamePanel gp) {
         Arrays.fill(cells, Cell.EMPTY); // fill all cells with empty status
@@ -73,18 +76,14 @@ public class GridCells {
         // update cell status if clicked
         if(mouse.isPressed() && !GamePanel.isGameOver) {
             int index = mouse.getLocationIndex();
+            currentIndex = index;
             if(index == -1 || getStatus(index) != Cell.EMPTY) return;
 
-            boolean correctAnswer = gp.showQuestionAndGetResult();
-            if(correctAnswer){
-                setStatus(index, GamePanel.playerSymbol);
-                gp.switchPlayer();
-            }else{ // računalnik postavi znak lahko čaka če se else odstrani
-                gp.switchPlayer();
-            }
-            /*setStatus(index, GamePanel.playerSymbol);
-            gp.switchPlayer();*/
+            gp.showQuestionAndGetResult();
 
+            //premaknjeno v questionPopUp.java(when correct) za hitrejse risanje simbola
+            //setStatus(index, GamePanel.playerSymbol);
+            gp.switchPlayer();
             mouse.setPressed(false);
         }
     }
@@ -101,6 +100,15 @@ public class GridCells {
             } else {
                 g2.drawImage(Osymbol, point.x, point.y, board.getCellSize(), board.getCellSize(), null);
             }
+        }
+        highlightHover(g2, hoverIndex);
+    }
+
+    public void highlightHover(Graphics2D g2, int index) {
+        if(hover) {
+            Point point = getPixelCoordinates(index);
+            g2.setColor(new Color(240, 240, 240));
+            g2.fillRect(point.x, point.y, board.getCellSize(), board.getCellSize());
         }
     }
 }

@@ -67,7 +67,8 @@ public class Board {
     }
 
     public void draw(Graphics2D g2) {
-        g2.setColor(Color.BLACK);
+        g2.setColor(new Color(60, 60, 60));
+
 
         g2.setStroke(new BasicStroke(
                 lineThickness,

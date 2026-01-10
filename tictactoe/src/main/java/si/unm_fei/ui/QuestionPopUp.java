@@ -1,30 +1,33 @@
 package si.unm_fei.ui;
 
+import si.unm_fei.core.GamePanel;
+import si.unm_fei.logic.GridCells;
 import si.unm_fei.logic.Question;
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 
 public class QuestionPopUp  extends JDialog  {
     private boolean correctAnswer = false;  // Shrani rezultat
 
-    public QuestionPopUp(JFrame parent, Question q) {
+    public QuestionPopUp(JFrame parent, Question q, GridCells gs) {
         super(parent, "Vprašanje", true);
         setSize(450, 350);
         setLocationRelativeTo(parent);
         setLayout(new BorderLayout(10, 10));
 
         // Vprašanje na vrhu
-        JLabel questionLabel = new JLabel("<html><div style='text-align: center; padding: 10px;'><b>"
+        JLabel questionLabel = new JLabel("<html><div style='text-align: center; padding-top: 20px;'><b>"
                 + q.text + "</b></div></html>");
         questionLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
         questionLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(questionLabel, BorderLayout.NORTH);
 
         //mešanje odgovorov
-        java.util.List<String> shuffledAnswers = new java.util.ArrayList<>(java.util.Arrays.asList(q.answers));
-        java.util.Collections.shuffle(shuffledAnswers);
+        List<String> shuffledAnswers = new ArrayList<>(Arrays.asList(q.answers));
+        Collections.shuffle(shuffledAnswers);
 
         // Odgovori v sredini
         JPanel answersPanel = new JPanel(new GridLayout(0, 1, 10, 10));
@@ -39,10 +42,11 @@ public class QuestionPopUp  extends JDialog  {
             btn.addActionListener(e -> {
                 if (ans.equals(q.correct)) {
                     correctAnswer = true;  // Shrani true
-                    JOptionPane.showMessageDialog(this, "Pravilno! ✓", "Rezultat", JOptionPane.INFORMATION_MESSAGE);
+                    gs.setStatus(gs.currentIndex, GamePanel.playerSymbol);
+                    showMessage("Pravilno!", "Rezultat", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     correctAnswer = false;  // Shrani false
-                    JOptionPane.showMessageDialog(this, "Napačno! Poskusi kasneje.", "Rezultat", JOptionPane.ERROR_MESSAGE);
+                    showMessage("Napačno! Poskusi kasneje.", "Rezultat", JOptionPane.ERROR_MESSAGE);
                 }
                 dispose();
             });
@@ -56,4 +60,28 @@ public class QuestionPopUp  extends JDialog  {
         setVisible(true);  // Blokira dokler se popup ne zapre
         return correctAnswer;
     }
+
+    private void showMessage(String message, String title, int type) {
+        JLabel label = new JLabel(message);
+        label.setFont(new Font("Dialog", Font.BOLD, 16));
+
+        JOptionPane pane = new JOptionPane(
+                label,
+                type,
+                JOptionPane.DEFAULT_OPTION
+        );
+
+        JButton ok = new JButton("OK");
+        ok.setFocusPainted(false);
+        ok.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        pane.setOptions(new Object[]{ ok });
+
+        JDialog dialog = pane.createDialog(this, title);
+
+        ok.addActionListener(e -> dialog.dispose());
+
+        dialog.setVisible(true);
+    }
+
 }

@@ -1,6 +1,7 @@
 package si.unm_fei.core;
 
 import si.unm_fei.logic.Kategorija;
+import si.unm_fei.ui.Logo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,14 +10,25 @@ import static si.unm_fei.core.Game.SCREEN_HEIGHT;
 import static si.unm_fei.core.Game.SCREEN_WIDTH;
 
 public class MainMenu extends JPanel {
+    Logo logo;
+    private Timer animTimer;
+    // bg animation
+    private static float yLevel = SCREEN_HEIGHT/2;
+    private static final float TARGET_Y = 200f;
+    private static final float STEP = 10f;
 
-    private static Kategorija selectedKategorija = Kategorija.UPRAVLJANJE;
+    private static Kategorija selectedKategorija = GamePanel.oldCategory;
+    Cursor handCursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
 
     public static Kategorija getKategorija() {
         return selectedKategorija;
     }
 
-    public MainMenu(Game game) {
+    public static void setKategorija(Kategorija value) {
+        selectedKategorija = value;
+    }
+
+    public MainMenu(Game game, Assets assets) {
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         //setBackground(Color.WHITE);
         setLayout(new GridBagLayout());
@@ -26,6 +38,10 @@ public class MainMenu extends JPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.fill = GridBagConstraints.NONE;
 
+        if(selectedKategorija == null) {
+            selectedKategorija = Kategorija.UPRAVLJANJE;
+        }
+
         addTitle(gbc);
         JComboBox<String> box = addCategoryBox(gbc);
         addButtons(gbc, game);
@@ -33,6 +49,9 @@ public class MainMenu extends JPanel {
         String selectedLabel = (String) box.getSelectedItem();
         selectedKategorija = Kategorija.fromString(selectedLabel);
 
+        logo = new Logo(assets);
+
+        startGradientAnimation();
     }
     private void addTitle(GridBagConstraints gbc) {
         JLabel title = new JLabel("Križec Krožec Kviz");
@@ -47,11 +66,14 @@ public class MainMenu extends JPanel {
 
     private JComboBox<String> addCategoryBox(GridBagConstraints gbc) {
         JComboBox<String> kategorijaBox = new JComboBox<>();
+        kategorijaBox.setCursor(handCursor);
 
         // fill combo box
         for(Kategorija k : Kategorija.values()) {
             kategorijaBox.addItem(k.getFullName());
         }
+
+        kategorijaBox.setSelectedItem(selectedKategorija.getFullName());
 
         kategorijaBox.setPreferredSize(new Dimension(260, 28));
         kategorijaBox.setFont(new Font("SansSerif", Font.PLAIN, 13));
@@ -70,11 +92,14 @@ public class MainMenu extends JPanel {
     }
 
     private void addButtons(GridBagConstraints gbc, Game game) {
-        JButton newGame = createButton("New Game", 260, 40);
-        JButton quit = createButton("Quit", 260, 40);
+        JButton newGame = createButton("Začni", 260, 40);
+        JButton quit = createButton("Izhod", 260, 40);
 
         newGame.addActionListener(e -> game.startNewGame());
         quit.addActionListener(e -> System.exit(0));
+
+        newGame.setCursor(handCursor);
+        quit.setCursor(handCursor);
 
         gbc.gridy = 2;
         gbc.insets = new Insets(0, 0, 8, 0); // tight spacing
@@ -94,23 +119,46 @@ public class MainMenu extends JPanel {
         b.setForeground(Color.WHITE);
         return b;
     }
+    public void startGradientAnimation() {
+        if (animTimer != null && animTimer.isRunning()) animTimer.stop();
 
+        animTimer = new Timer(16, e -> {
+            if (yLevel > TARGET_Y) {
+                yLevel = Math.max(TARGET_Y, yLevel - STEP);
+                repaint();
+            } else {
+                ((Timer) e.getSource()).stop();
+            }
+        });
+        animTimer.start();
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setPaint(new GradientPaint(
-                0, 0, new Color(245, 248, 252),
-                0, getHeight(), new Color(220, 228, 238)
-        ));
-        g2.fillRect(0, 0, getWidth(), getHeight());
+        Graphics2D g2 = (Graphics2D) g.create();
 
+        try {
+            drawGradient(g2);
+
+            logo.draw(g2);
+        } finally {
+            g2.dispose();
+        }
     }
 
+    private void drawGradient(Graphics2D g2) {
+        g2.setPaint(new GradientPaint(
+                0, yLevel, new Color(245, 248, 252),
+                0, getHeight(), new Color(188, 215, 173)
+        ));
+        g2.fillRect(0, 0, getWidth(), getHeight());
+    }
 
-
+    public static void setYLevel(float value) {
+        yLevel = value;
+    }
 
 }
 

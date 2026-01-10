@@ -1,7 +1,9 @@
 package si.unm_fei.logic;
 
+import si.unm_fei.core.GamePanel;
 import si.unm_fei.ui.Board;
 
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -9,9 +11,18 @@ public class MouseHandler extends MouseAdapter {
     private int x, y;
     private boolean pressed = false;
 
-    private Board board;
+    private static final Cursor HAND = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
+    private static final Cursor DEFAULT = Cursor.getDefaultCursor();
 
-    public MouseHandler(Board board) {
+    private Cursor currentCursor = DEFAULT;
+
+    private Board board;
+    private GamePanel gp;
+    private GridCells gs;
+
+
+    public MouseHandler(GamePanel gp, Board board) {
+        this.gp = gp;
         this.board = board;
     }
 
@@ -31,6 +42,24 @@ public class MouseHandler extends MouseAdapter {
         x = e.getX();
         y = e.getY();
         pressed = false;
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        x = e.getX();
+        y = e.getY();
+
+        this.gs = gp.gridCells;
+
+        int index = getLocationIndex();
+        if(index != -1 && gs.getStatus(index) == Cell.EMPTY) {
+            setForcedCursor(HAND);
+            gs.hover = true;
+            gs.hoverIndex = index;
+        } else {
+            setForcedCursor(DEFAULT);
+            gs.hover = false;
+        }
     }
 
     public int getX() {
@@ -71,5 +100,11 @@ public class MouseHandler extends MouseAdapter {
         }
 
         return row * board.getCols() + col;
+    }
+
+    private void setForcedCursor(Cursor cursor) {
+        if (currentCursor == cursor) return;
+        currentCursor = cursor;
+        gp.setCursor(cursor);
     }
 }

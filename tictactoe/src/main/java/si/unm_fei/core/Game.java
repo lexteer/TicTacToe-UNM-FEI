@@ -6,6 +6,7 @@ import javax.swing.SwingUtilities;
 public class Game {
 
     private JFrame frame;
+    Assets assets = new Assets();
 
     public static final int SCREEN_WIDTH = 800;
     public static final int SCREEN_HEIGHT = 600;
@@ -27,13 +28,13 @@ public class Game {
     }
 
     public void showMainMenu() {
-        frame.setContentPane(new MainMenu(this));
+        frame.setContentPane(new MainMenu(this, assets));
         frame.revalidate();
         frame.repaint();
     }
 
     public void startNewGame() {
-        GamePanel gamePanel = new GamePanel(this);
+        GamePanel gamePanel = new GamePanel(this, assets);
         frame.setContentPane(gamePanel);
         frame.revalidate();
         frame.repaint();
