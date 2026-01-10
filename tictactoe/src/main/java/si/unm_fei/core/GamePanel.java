@@ -193,6 +193,16 @@ public class GamePanel extends JPanel implements Runnable {
     }*/
 
     public void resetGame() {
+        Kategorija selectedCategory = MainMenu.getKategorija();
+        questionManager = new QuestionManager(selectedCategory);
+
+        gridCells.resetCells();
+        rules.setWinner(Cell.EMPTY);
+        isGameOver = false;
+
+        if(engineEnabled && !playerStarts) {
+            engine.playEngineMove();
+        }
         returnToMainMenu();
     }
 

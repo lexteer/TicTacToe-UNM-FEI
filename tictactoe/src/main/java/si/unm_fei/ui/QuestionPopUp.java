@@ -2,13 +2,12 @@ package si.unm_fei.ui;
 
 import si.unm_fei.logic.Question;
 import javax.swing.*;
-
-import javax.swing.*;
 import java.awt.*;
+import java.util.*;
 
 
 public class QuestionPopUp  extends JDialog  {
-    private boolean correctAnswer = false;  // ✅ Shrani rezultat
+    private boolean correctAnswer = false;  // Shrani rezultat
 
     public QuestionPopUp(JFrame parent, Question q) {
         super(parent, "Vprašanje", true);
@@ -23,11 +22,15 @@ public class QuestionPopUp  extends JDialog  {
         questionLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(questionLabel, BorderLayout.NORTH);
 
+        //mešanje odgovorov
+        java.util.List<String> shuffledAnswers = new java.util.ArrayList<>(java.util.Arrays.asList(q.answers));
+        java.util.Collections.shuffle(shuffledAnswers);
+
         // Odgovori v sredini
         JPanel answersPanel = new JPanel(new GridLayout(0, 1, 10, 10));
         answersPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        for (String ans : q.answers) {
+        for (String ans : shuffledAnswers) {
             JButton btn = new JButton(ans);
             btn.setFont(new Font("SansSerif", Font.PLAIN, 14));
             btn.setPreferredSize(new Dimension(300, 50));
@@ -35,10 +38,10 @@ public class QuestionPopUp  extends JDialog  {
 
             btn.addActionListener(e -> {
                 if (ans.equals(q.correct)) {
-                    correctAnswer = true;  // ✅ Shrani true
+                    correctAnswer = true;  // Shrani true
                     JOptionPane.showMessageDialog(this, "Pravilno! ✓", "Rezultat", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    correctAnswer = false;  // ✅ Shrani false
+                    correctAnswer = false;  // Shrani false
                     JOptionPane.showMessageDialog(this, "Napačno! Poskusi kasneje.", "Rezultat", JOptionPane.ERROR_MESSAGE);
                 }
                 dispose();

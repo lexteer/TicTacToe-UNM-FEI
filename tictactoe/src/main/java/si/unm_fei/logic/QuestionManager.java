@@ -8,11 +8,12 @@ public class QuestionManager {
     private Random random = new Random();
 
     public QuestionManager(Kategorija kategorija) {
-        remainingQuestions = new ArrayList<> ( QuestionLoader.load().get(kategorija));
+        ArrayList<Question> originalList = QuestionLoader.load().get(kategorija);
+        remainingQuestions = new ArrayList<>(originalList);
+
     }
 
     public Question getRandomQuestion() {
-
         if (remainingQuestions.isEmpty()) {
             return null; // ali vrzi exception, ali reset
         }

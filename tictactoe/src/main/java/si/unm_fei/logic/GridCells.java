@@ -79,6 +79,8 @@ public class GridCells {
             if(correctAnswer){
                 setStatus(index, GamePanel.playerSymbol);
                 gp.switchPlayer();
+            }else{ // računalnik postavi znak lahko čaka če se else odstrani
+                gp.switchPlayer();
             }
             /*setStatus(index, GamePanel.playerSymbol);
             gp.switchPlayer();*/
