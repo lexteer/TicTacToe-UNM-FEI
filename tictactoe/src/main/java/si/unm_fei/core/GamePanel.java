@@ -40,6 +40,7 @@ public class GamePanel extends JPanel implements Runnable {
     private float yLevel = SCREEN_HEIGHT/2;
 
     // Instances
+    private MainMenu mm;
     private Board board;
     public GridCells gridCells;
     private MouseHandler mouse;
@@ -51,8 +52,9 @@ public class GamePanel extends JPanel implements Runnable {
     private Logo logo;
     private QuestionManager questionManager;
 
-    public GamePanel(Game game, Assets assets) {
+    public GamePanel(Game game, MainMenu mm, Assets assets) {
         this.game=game;
+        this.mm = mm;
         this.assets = assets;
 
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -87,7 +89,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void run() {
         double nextDrawTime = System.nanoTime() + DRAW_INTERVAL;
 
-        while (running) {
+        while (running && !Thread.currentThread().isInterrupted()) {
 
             update();
             repaint();
@@ -142,23 +144,24 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g.create();
 
-        drawGradient(g2);
+        try {
+            drawGradient(g2);
 
+            board.draw(g2); // draw the board
+            gridCells.draw(g2);
+            gameOver.draw(g2);
+            logo.draw(g2);
 
-        board.draw(g2); // draw the board
-        gridCells.draw(g2);
-        gameOver.draw(g2);
-        logo.draw(g2);
-
-        g2.dispose();
+        } finally {
+            g2.dispose();
+        }
     }
 
     private void drawGradient(Graphics2D g2) {
         float yEnd = 520;
 
         if(yLevel < yEnd) {
-            yLevel += 10;
-            MainMenu.setYLevel(yLevel);
+            yLevel += 10f;
         }
 
         g2.setPaint(new GradientPaint(
@@ -200,28 +203,16 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void returnToMainMenu() {
-        running = false;
-
-        if (gameThread != null) {
-            try {
-                gameThread.join(); // wait for clean exit
-            } catch (InterruptedException ignored) {
-                Thread.currentThread().interrupt();
-            }
-            gameThread = null;
-        }
-
         removeMouseListener(mouse);
         removeMouseMotionListener(mouse);
 
+        mm.setYLevel(yLevel);
         game.showMainMenu();
 
         MainMenu.setKategorija(oldCategory);
     }
 
     public void resetGame() {
-        questionManager = new QuestionManager(MainMenu.getKategorija());
-
         gridCells.resetCells();
         rules.setWinner(Cell.EMPTY);
         isGameOver = false;
@@ -234,6 +225,15 @@ public class GamePanel extends JPanel implements Runnable {
 
         returnToMainMenu();
     }
+
+    public synchronized void stopGameThread() {
+        running = false;
+        if (gameThread != null) {
+            gameThread.interrupt();
+            gameThread = null;
+        }
+    }
+
 
 }
 

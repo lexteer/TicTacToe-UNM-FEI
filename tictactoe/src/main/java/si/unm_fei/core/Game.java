@@ -26,9 +26,9 @@ public class Game {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-
+    MainMenu mainMenu = new MainMenu(this, assets);
     public void showMainMenu() {
-        MainMenu mainMenu = new MainMenu(this, assets);
+
         frame.setContentPane(mainMenu);
         frame.revalidate();
         frame.repaint();
@@ -37,12 +37,14 @@ public class Game {
     }
 
     public void startNewGame() {
-        GamePanel gamePanel = new GamePanel(this, assets);
+        GamePanel gamePanel = new GamePanel(this, mainMenu, assets);
         frame.setContentPane(gamePanel);
         frame.revalidate();
         frame.repaint();
 
         gamePanel.startGameThread(); // start when shown
     }
+
+
 }
 

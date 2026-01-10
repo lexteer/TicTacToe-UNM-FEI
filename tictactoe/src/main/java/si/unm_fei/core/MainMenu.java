@@ -21,7 +21,7 @@ public class MainMenu extends JPanel implements Runnable {
     Logo logo;
     private Timer animTimer;
     // bg animation
-    private static float yLevel = SCREEN_HEIGHT/2;
+    private float yLevel;
 
     private static Kategorija selectedKategorija = GamePanel.oldCategory;
     Cursor handCursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
@@ -38,6 +38,8 @@ public class MainMenu extends JPanel implements Runnable {
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         //setBackground(Color.WHITE);
         setLayout(new GridBagLayout());
+
+        yLevel = SCREEN_HEIGHT/2;
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -201,9 +203,22 @@ public class MainMenu extends JPanel implements Runnable {
         g2.fillRect(0, 0, getWidth(), getHeight());
     }
 
-    public static void setYLevel(float value) {
+    public void setYLevel(float value) {
         yLevel = value;
     }
+
+    @Override
+    public void removeNotify() {
+        stopGameThread();
+        super.removeNotify();
+    }
+
+    @Override
+    public void addNotify() {
+        super.addNotify();
+        startGameThread();
+    }
+
 
 }
 
