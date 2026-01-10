@@ -33,7 +33,7 @@ public class Game {
     }
 
     public void startNewGame() {
-        GamePanel gamePanel = new GamePanel();
+        GamePanel gamePanel = new GamePanel(this);
         frame.setContentPane(gamePanel);
         frame.revalidate();
         frame.repaint();
