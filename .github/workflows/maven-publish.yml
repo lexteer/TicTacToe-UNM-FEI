@@ -29,6 +29,7 @@ jobs:
           cache: maven
 
       - name: Build with Maven
+        working-directory: tictactoe
         run: mvn -B clean verify
 
   windows-exe:
@@ -49,6 +50,7 @@ jobs:
           cache: maven
 
       - name: Build (skip tests)
+        working-directory: tictactoe
         run: mvn -B -DskipTests clean package
 
       - name: Resolve version from tag
