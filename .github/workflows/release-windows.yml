@@ -49,18 +49,18 @@ jobs:
 
       - name: Package EXE with jpackage
         shell: pwsh
-        run: |
-          jpackage `
-            --name "TicTacToe Kviz" `              
-            --app-version "${{ steps.ver.outputs.version }}" `
-            --input "input" `
-            --main-jar "app.jar" `
-            --main-class "si.unm_fei.core.Game" `     
-            --type exe `
-            --dest "dist" `
-            --win-shortcut `
-            --win-menu `
-            --win-dir-chooser
+        run: >
+          jpackage --name "TicTacToe Kviz"
+          --app-version "${{ steps.ver.outputs.version }}"
+          --input "input"
+          --main-jar "app.jar"
+          --main-class "si.unm_fei.core.Game"
+          --type exe
+          --dest "dist"
+          --win-shortcut
+          --win-menu
+          --win-dir-chooser
+
             
       - name: List dist output
         shell: pwsh
