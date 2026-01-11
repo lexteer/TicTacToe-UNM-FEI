@@ -61,8 +61,20 @@ jobs:
             --win-shortcut `
             --win-menu `
             --win-dir-chooser
-
+            
+      - name: List dist output
+        shell: pwsh
+        run: |
+          if (Test-Path dist) {
+            Get-ChildItem -Recurse dist | Format-Table FullName
+          } else {
+            Write-Host "dist folder does not exist"
+            exit 1
+          }
+          
       - name: Attach EXE to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/*.exe
+          files: |
+            dist/*.exe
+            dist/*.msi
