@@ -14,7 +14,7 @@ public class GamePanel extends JPanel implements Runnable {
     private Game game;
 
     public static Cell startingSymbol = Cell.X;
-    public static Cell playerSymbol = startingSymbol;
+    public static Cell playerSymbol;
     public static Cell computerSymbol = (playerSymbol == Cell.X) ? Cell.O : Cell.X;
 
     public static boolean engineEnabled = true; // on, off for engine
@@ -66,6 +66,8 @@ public class GamePanel extends JPanel implements Runnable {
 
         //instances
         initObj();
+
+        playerSymbol = startingSymbol;
 
         oldCategory = MainMenu.getKategorija();
 
