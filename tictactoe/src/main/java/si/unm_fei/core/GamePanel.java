@@ -13,11 +13,12 @@ public class GamePanel extends JPanel implements Runnable {
 
     private Game game;
 
-    public static Cell playerSymbol = Cell.X;
+    public static Cell startingSymbol = Cell.X;
+    public static Cell playerSymbol = startingSymbol;
     public static Cell computerSymbol = (playerSymbol == Cell.X) ? Cell.O : Cell.X;
 
     public static boolean engineEnabled = true; // on, off for engine
-    private final boolean playerStarts = true; // decide if player or engine starts
+    public static boolean playerStarts = true; // decide if player or engine starts
 
     // Screen settings, change from game.java
     private static final int WIDTH = SCREEN_WIDTH;
@@ -33,9 +34,16 @@ public class GamePanel extends JPanel implements Runnable {
 
     public static boolean isGameOver = false;
 
+    // save selected category
+    public static Kategorija oldCategory;
+
+    // bg animation
+    private float yLevel = SCREEN_HEIGHT/2;
+
     // Instances
+    private MainMenu mm;
     private Board board;
-    private GridCells gridCells;
+    public GridCells gridCells;
     private MouseHandler mouse;
     private Assets assets;
     private Engine engine;
@@ -45,8 +53,10 @@ public class GamePanel extends JPanel implements Runnable {
     private Logo logo;
     private QuestionManager questionManager;
 
-    public GamePanel(Game game) {
+    public GamePanel(Game game, MainMenu mm, Assets assets) {
         this.game=game;
+        this.mm = mm;
+        this.assets = assets;
 
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setBackground(Color.WHITE);
@@ -57,6 +67,8 @@ public class GamePanel extends JPanel implements Runnable {
         //instances
         initObj();
 
+        oldCategory = MainMenu.getKategorija();
+
         // reset game btn
         resetButton = new ResetGameBtn(board, this);
         add(resetButton.getResetButton());
@@ -65,19 +77,20 @@ public class GamePanel extends JPanel implements Runnable {
 
     }
 
-    public void startGameThread() {
-        if (gameThread == null) {
-            running = true;
-            gameThread = new Thread(this, "GameThread");
-            gameThread.start();
-        }
+    public synchronized void startGameThread() {
+        if (running) return;
+
+        running = true;
+        gameThread = new Thread(this, "GameThread");
+        gameThread.start();
     }
+
 
     @Override
     public void run() {
         double nextDrawTime = System.nanoTime() + DRAW_INTERVAL;
 
-        while (running) {
+        while (running && !Thread.currentThread().isInterrupted()) {
 
             update();
             repaint();
@@ -102,10 +115,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Instantiate game objects here
     private void initObj() {
-        assets = new Assets();
         board = new Board(WIDTH, HEIGHT);
 
-        mouse = new MouseHandler(board);
+        mouse = new MouseHandler(this, board);
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
 
@@ -114,16 +126,12 @@ public class GamePanel extends JPanel implements Runnable {
         engine = new Engine(gridCells, rules);
         gameOver = new GameOver(rules, board);
         logo = new Logo(assets);
-
-        Kategorija selectedCategory = MainMenu.getKategorija();
-        questionManager = new QuestionManager(selectedCategory);
+        questionManager = new QuestionManager(MainMenu.getKategorija());
 
         // if engine starts
         if(engineEnabled && !playerStarts) {
             engine.playEngineMove();
         }
-
-        System.out.println(MainMenu.getKategorija());
     }
 
     // game updates here (called 60 times per second)
@@ -137,12 +145,34 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g.create();
 
-        board.draw(g2); // draw the board
-        gridCells.draw(g2);
-        gameOver.draw(g2);
-        logo.draw(g2);
+        try {
+            drawGradient(g2);
 
-        g2.dispose();
+            board.draw(g2); // draw the board
+            gridCells.draw(g2);
+            gameOver.draw(g2);
+            logo.draw(g2);
+
+        } finally {
+            g2.dispose();
+        }
+    }
+
+    private void drawGradient(Graphics2D g2) {
+        float yEnd = 520;
+
+        if(yLevel < yEnd) {
+            yLevel += 10f;
+        }
+
+        g2.setPaint(new GradientPaint(
+                0, yLevel, new Color(245, 248, 252),
+                0, getHeight(), new Color(188, 215, 173)
+        ));
+
+        g2.fillRect(0, 0, getWidth(), getHeight());
+
+
     }
 
     public void switchPlayer() {
@@ -168,34 +198,24 @@ public class GamePanel extends JPanel implements Runnable {
 
         // Pridobi JFrame parent
         JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        QuestionPopUp popup = new QuestionPopUp(parentFrame, q);
+        QuestionPopUp popup = new QuestionPopUp(parentFrame, q, gridCells);
 
-        // ✅ Popup mora vrniti true/false
         return popup.showAndGetResult();
     }
 
     public void returnToMainMenu() {
-        running = false;  // Ustavi game loop
-        if (gameThread != null) {
-            gameThread.interrupt();
-        }
-        game.showMainMenu();  // Vrni se v MainMenu
+        stopGameThread();
+
+        removeMouseListener(mouse);
+        removeMouseMotionListener(mouse);
+
+        mm.setYLevel(yLevel);
+        game.showMainMenu();
+
+        MainMenu.setKategorija(oldCategory);
     }
-
-    /*public void resetGame() {
-        gridCells.resetCells();
-        rules.setWinner(Cell.EMPTY);
-        isGameOver = false;
-
-        if(engineEnabled && !playerStarts) {
-            engine.playEngineMove();
-        }
-    }*/
 
     public void resetGame() {
-        Kategorija selectedCategory = MainMenu.getKategorija();
-        questionManager = new QuestionManager(selectedCategory);
-
         gridCells.resetCells();
         rules.setWinner(Cell.EMPTY);
         isGameOver = false;
@@ -203,8 +223,18 @@ public class GamePanel extends JPanel implements Runnable {
         if(engineEnabled && !playerStarts) {
             engine.playEngineMove();
         }
+
         returnToMainMenu();
     }
+
+    public synchronized void stopGameThread() {
+        running = false;
+        if (gameThread != null) {
+            gameThread.interrupt();
+            gameThread = null;
+        }
+    }
+
 
 }
 

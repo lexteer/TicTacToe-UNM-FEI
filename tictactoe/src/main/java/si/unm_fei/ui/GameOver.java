@@ -22,7 +22,7 @@ public class GameOver {
 
             if(isDraw) {
                 // its a draw
-                displayMessage(g2, "It's a draw!");
+                displayMessage(g2, "Draw!");
             } else {
                 if(GamePanel.engineEnabled) {
                     if (winner == GamePanel.playerSymbol) {

@@ -10,7 +10,9 @@ public class ResetGameBtn{
 
     public ResetGameBtn(Board board, GamePanel gp) {
 
-        resetButton = new JButton("New Game");
+        resetButton = new JButton("Nova igra");
+        resetButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
         int btnWidth = 100;
         resetButton.setBounds(board.getX() + board.boardWidth() / 2 - btnWidth / 2,
                 board.getY() + board.boardHeight() + 30,

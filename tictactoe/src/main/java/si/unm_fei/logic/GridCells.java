@@ -15,6 +15,11 @@ public class GridCells {
     MouseHandler mouse;
     Board board;
     GamePanel gp;
+    public boolean hover = false;
+    public int hoverIndex = -1;
+    public int currentIndex = -1;
+
+    public boolean forceDraw = false;
 
     public GridCells(MouseHandler mouse, Board board, Assets assets, GamePanel gp) {
         Arrays.fill(cells, Cell.EMPTY); // fill all cells with empty status
@@ -70,27 +75,38 @@ public class GridCells {
     }
 
     public void update() {
+        // reset vars
+        currentIndex = -1;
+        forceDraw = false;
+
         // update cell status if clicked
         if(mouse.isPressed() && !GamePanel.isGameOver) {
             int index = mouse.getLocationIndex();
+            currentIndex = index;
             if(index == -1 || getStatus(index) != Cell.EMPTY) return;
 
-            boolean correctAnswer = gp.showQuestionAndGetResult();
-            if(correctAnswer){
-                setStatus(index, GamePanel.playerSymbol);
-                gp.switchPlayer();
-            }else{ // računalnik postavi znak lahko čaka če se else odstrani
-                gp.switchPlayer();
-            }
-            /*setStatus(index, GamePanel.playerSymbol);
-            gp.switchPlayer();*/
+            gp.showQuestionAndGetResult();
 
+            //premaknjeno v questionPopUp.java(when correct) za hitrejse risanje simbola
+            //setStatus(index, GamePanel.playerSymbol);
+            gp.switchPlayer();
             mouse.setPressed(false);
         }
     }
 
     // draw the image x/o
     public void draw(Graphics2D g2) {
+        // to fix the bot symbol drawing before players (incorrect order)
+        if(forceDraw && currentIndex != -1) {
+            Point point = getPixelCoordinates(currentIndex);
+
+            if(cells[currentIndex] == Cell.X) {
+                g2.drawImage(Xsymbol, point.x, point.y, board.getCellSize(), board.getCellSize(), null);
+            } else {
+                g2.drawImage(Osymbol, point.x, point.y, board.getCellSize(), board.getCellSize(), null);
+            }
+        }
+
         for (int i = 0; i < cells.length; i++) {
             if(cells[i] == Cell.EMPTY) continue;
 
@@ -101,6 +117,15 @@ public class GridCells {
             } else {
                 g2.drawImage(Osymbol, point.x, point.y, board.getCellSize(), board.getCellSize(), null);
             }
+        }
+        highlightHover(g2, hoverIndex);
+    }
+
+    public void highlightHover(Graphics2D g2, int index) {
+        if(hover) {
+            Point point = getPixelCoordinates(index);
+            g2.setColor(new Color(240, 240, 240));
+            g2.fillRect(point.x, point.y, board.getCellSize(), board.getCellSize());
         }
     }
 }
