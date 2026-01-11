@@ -27,8 +27,8 @@ public class Game {
         frame.setVisible(true);
     }
     MainMenu mainMenu = new MainMenu(this, assets);
-    public void showMainMenu() {
 
+    public void showMainMenu() {
         frame.setContentPane(mainMenu);
         frame.revalidate();
         frame.repaint();
@@ -45,6 +45,12 @@ public class Game {
         gamePanel.startGameThread(); // start when shown
     }
 
+    public void showOptions() {
+        Options options = new Options(this);
+        frame.setContentPane(options);
+        frame.revalidate();
+        frame.repaint();
 
+    }
 }
 

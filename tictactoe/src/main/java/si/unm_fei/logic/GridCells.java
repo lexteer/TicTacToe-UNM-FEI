@@ -19,6 +19,8 @@ public class GridCells {
     public int hoverIndex = -1;
     public int currentIndex = -1;
 
+    public boolean forceDraw = false;
+
     public GridCells(MouseHandler mouse, Board board, Assets assets, GamePanel gp) {
         Arrays.fill(cells, Cell.EMPTY); // fill all cells with empty status
 
@@ -73,6 +75,10 @@ public class GridCells {
     }
 
     public void update() {
+        // reset vars
+        currentIndex = -1;
+        forceDraw = false;
+
         // update cell status if clicked
         if(mouse.isPressed() && !GamePanel.isGameOver) {
             int index = mouse.getLocationIndex();
@@ -90,6 +96,17 @@ public class GridCells {
 
     // draw the image x/o
     public void draw(Graphics2D g2) {
+        // to fix the bot symbol drawing before players (incorrect order)
+        if(forceDraw && currentIndex != -1) {
+            Point point = getPixelCoordinates(currentIndex);
+
+            if(cells[currentIndex] == Cell.X) {
+                g2.drawImage(Xsymbol, point.x, point.y, board.getCellSize(), board.getCellSize(), null);
+            } else {
+                g2.drawImage(Osymbol, point.x, point.y, board.getCellSize(), board.getCellSize(), null);
+            }
+        }
+
         for (int i = 0; i < cells.length; i++) {
             if(cells[i] == Cell.EMPTY) continue;
 

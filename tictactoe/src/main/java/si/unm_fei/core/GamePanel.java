@@ -13,11 +13,12 @@ public class GamePanel extends JPanel implements Runnable {
 
     private Game game;
 
-    public static Cell playerSymbol = Cell.X;
+    public static Cell startingSymbol = Cell.X;
+    public static Cell playerSymbol = startingSymbol;
     public static Cell computerSymbol = (playerSymbol == Cell.X) ? Cell.O : Cell.X;
 
     public static boolean engineEnabled = true; // on, off for engine
-    private final boolean playerStarts = true; // decide if player or engine starts
+    public static boolean playerStarts = true; // decide if player or engine starts
 
     // Screen settings, change from game.java
     private static final int WIDTH = SCREEN_WIDTH;
@@ -203,6 +204,8 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void returnToMainMenu() {
+        stopGameThread();
+
         removeMouseListener(mouse);
         removeMouseMotionListener(mouse);
 
@@ -220,8 +223,6 @@ public class GamePanel extends JPanel implements Runnable {
         if(engineEnabled && !playerStarts) {
             engine.playEngineMove();
         }
-
-        questionManager.resetQuestions();
 
         returnToMainMenu();
     }

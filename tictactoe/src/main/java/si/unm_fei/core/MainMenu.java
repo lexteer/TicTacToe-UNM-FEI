@@ -78,7 +78,7 @@ public class MainMenu extends JPanel implements Runnable {
 
             float yEnd = getHeight() / 2f;
             if (yLevel > yEnd) {
-                yLevel = Math.max(yEnd, yLevel - 10f);
+                yLevel = Math.max(yEnd, yLevel - 5f);
             }
 
             repaint();
@@ -141,6 +141,7 @@ public class MainMenu extends JPanel implements Runnable {
 
     private void addButtons(GridBagConstraints gbc, Game game) {
         JButton newGame = createButton("Začni", 260, 40);
+        JButton options = createButton("Nastavitve", 260, 40);
         JButton quit = createButton("Izhod", 260, 40);
 
         newGame.addActionListener(e -> {
@@ -148,9 +149,15 @@ public class MainMenu extends JPanel implements Runnable {
             game.startNewGame();
         });
 
+        options.addActionListener(e -> {
+            stopGameThread();
+            game.showOptions();
+        });
+
         quit.addActionListener(e -> System.exit(0));
 
         newGame.setCursor(handCursor);
+        options.setCursor(handCursor);
         quit.setCursor(handCursor);
 
         gbc.gridy = 2;
@@ -158,6 +165,10 @@ public class MainMenu extends JPanel implements Runnable {
         add(newGame, gbc);
 
         gbc.gridy = 3;
+        gbc.insets = new Insets(0, 0, 8, 0);
+        add(options, gbc);
+
+        gbc.gridy = 4;
         gbc.insets = new Insets(0, 0, 0, 0);
         add(quit, gbc);
     }

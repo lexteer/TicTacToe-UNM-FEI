@@ -43,6 +43,7 @@ public class QuestionPopUp  extends JDialog  {
                 if (ans.equals(q.correct)) {
                     correctAnswer = true;  // Shrani true
                     gs.setStatus(gs.currentIndex, GamePanel.playerSymbol);
+                    gs.forceDraw = true;
                     showMessage("Pravilno!", "Rezultat", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     correctAnswer = false;  // Shrani false
