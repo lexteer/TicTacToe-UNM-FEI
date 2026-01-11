@@ -15,7 +15,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public static Cell startingSymbol = Cell.X;
     public static Cell playerSymbol;
-    public static Cell computerSymbol = (playerSymbol == Cell.X) ? Cell.O : Cell.X;
+    public static Cell computerSymbol;
 
     public static boolean engineEnabled = true; // on, off for engine
     public static boolean playerStarts = true; // decide if player or engine starts
@@ -68,6 +68,7 @@ public class GamePanel extends JPanel implements Runnable {
         initObj();
 
         playerSymbol = startingSymbol;
+        computerSymbol = (playerSymbol == Cell.X) ? Cell.O : Cell.X;
 
         oldCategory = MainMenu.getKategorija();
 
@@ -178,6 +179,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void switchPlayer() {
+        System.out.println("player switched");
         if(rules.isGameOver()) {
             isGameOver = true;
             return;
