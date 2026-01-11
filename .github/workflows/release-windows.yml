@@ -25,6 +25,7 @@ jobs:
           cache: maven
 
       - name: Build (Maven)
+        working-directory: tictactoe
         run: mvn -B -DskipTests clean package
 
       - name: Resolve version from tag
@@ -39,10 +40,10 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path input | Out-Null
-          $jar = Get-ChildItem -Path target -Filter *.jar |
+          $jar = Get-ChildItem -Path "tictactoe\target" -Filter *.jar |
             Where-Object { $_.Name -notmatch "(sources|javadoc)\.jar$" } |
             Select-Object -First 1
-          if (-not $jar) { throw "No runnable jar found in target/." }
+          if (-not $jar) { throw "No runnable jar found in tictactoe/target/." }
           Copy-Item -Force $jar.FullName ".\input\app.jar"
           Write-Host "Using jar: $($jar.Name)"
 
