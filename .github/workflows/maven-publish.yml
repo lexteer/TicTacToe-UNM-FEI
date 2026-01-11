@@ -1,0 +1,110 @@
+name: Java CI (Maven) + Windows EXE (jpackage)
+
+on:
+  push:
+    branches: [ "main" ]
+    tags:
+      - "v*.*.*"          # e.g. v1.0.0
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-test:
+    name: Build & Test (Linux)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      - name: Build with Maven
+        working-directory: tictactoe
+        run: mvn -B clean verify
+
+  windows-exe:
+    name: Package Windows Installer (tag only)
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: windows-latest
+    needs: build-test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      - name: Build (skip tests)
+        working-directory: tictactoe
+        run: mvn -B -DskipTests clean package
+
+      - name: Resolve version from tag
+        id: ver
+        shell: pwsh
+        run: |
+          $tag = "${env:GITHUB_REF_NAME}"     # e.g. v1.2.3
+          $ver = $tag.TrimStart("v")
+          "version=$ver" >> $env:GITHUB_OUTPUT
+
+      - name: Prepare jpackage input
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path input | Out-Null
+
+          # Pick the first "real" jar from tictactoe/target (exclude sources/javadoc)
+          $jar = Get-ChildItem -Path "tictactoe\target" -Filter *.jar |
+            Where-Object { $_.Name -notmatch "(sources|javadoc)\.jar$" } |
+            Select-Object -First 1
+
+          if (-not $jar) { throw "No runnable jar found in tictactoe/target." }
+
+          Copy-Item -Force $jar.FullName ".\input\app.jar"
+          Write-Host "Using jar: $($jar.Name)"
+
+      - name: Create Windows installer with jpackage
+        shell: pwsh
+        run: |
+          jpackage `
+            --name "Tic Tac Toe Kviz" `
+            --app-version "${{ steps.ver.outputs.version }}" `
+            --input "input" `
+            --main-jar "app.jar" `
+            --main-class "si.unm_fei.core.Game" `
+            --type exe `
+            --dest "dist" `
+            --win-shortcut `
+            --win-menu `
+            --win-dir-chooser
+
+      - name: List dist output
+        shell: pwsh
+        run: |
+          if (Test-Path dist) {
+            Get-ChildItem -Recurse dist | Format-Table FullName
+          } else {
+            Write-Host "dist folder does not exist"
+            exit 1
+          }
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-installer
+          path: |
+            dist/*.exe
+            dist/*.msi
