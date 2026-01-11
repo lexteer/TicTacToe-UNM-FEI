@@ -12,6 +12,14 @@ public class Game {
     public static final int SCREEN_HEIGHT = 600;
 
     public static void main(String[] args) {
+        // save any uncaught exception into an err file
+        Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+            try (var w = new java.io.PrintWriter(new java.io.FileWriter("error.log", true))) {
+                w.println("=== Uncaught exception on " + java.time.Instant.now() + " in " + t.getName() + " ===");
+                e.printStackTrace(w);
+            } catch (Exception ignored) {}
+        });
+
         SwingUtilities.invokeLater(() -> new Game().start());
     }
 

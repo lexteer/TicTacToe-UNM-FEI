@@ -22,11 +22,11 @@ public final class Assets {
     private void load(String path) {
         try (InputStream is = getClass().getResourceAsStream(path)) {
             if (is == null) {
-                return;
+                throw new IllegalStateException("Missing resource on classpath: " + path);
             }
             images.put(path, ImageIO.read(is));
         } catch (Exception e) {
-
+            throw new RuntimeException("Failed to load resource: " + path, e);
         }
     }
 
